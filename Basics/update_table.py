@@ -1,16 +1,10 @@
 import psycopg2
 import os
 from dotenv import load_dotenv
+from Basics.db_connect import get_connection
 
 def update_data():
-    load_dotenv()
-
-    conn = psycopg2.connect(
-        dbname=os.getenv('DB_NAME'),
-        user=os.getenv('DB_USER'),
-        password=os.getenv('DB_PASSWORD'),
-        host=os.getenv('DB_HOST')
-    )
+    conn = get_connection()
     cursor = conn.cursor()
 
     # Update the amount for a specific fine_id
@@ -18,7 +12,7 @@ def update_data():
     UPDATE fine
     SET amount = %s
     WHERE fine_id = %s
-    """, (15.00, 2))  
+    """, (19.00, 30))  
 
     # Commit the changes
     conn.commit()

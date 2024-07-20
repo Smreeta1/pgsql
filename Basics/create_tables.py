@@ -1,23 +1,7 @@
-import psycopg2
-import os
-from dotenv import load_dotenv
+from Basics.db_connect import get_connection
 
-def main():
-
-    load_dotenv()
-    
-    dbname = os.getenv('DB_NAME')
-    user = os.getenv('DB_USER')
-    password = os.getenv('DB_PASSWORD')
-    host = os.getenv('DB_HOST')
-
-    # Connect to the PostgreSQL database
-    conn = psycopg2.connect(
-        dbname=dbname,
-        user=user,
-        password=password,
-        host=host
-    )
+def create_tables():
+    conn = get_connection()
     cursor = conn.cursor()
 
     # Create tables
@@ -50,7 +34,7 @@ def main():
         fine_id SERIAL PRIMARY KEY,
         book_id INTEGER REFERENCES books(book_id),
         member_id INTEGER REFERENCES members(member_id),
-        amount DECIMAL(10, 2) NOT NULL,
+        amount FLOAT NOT NULL,
         fine_date DATE
     );
     """)
@@ -63,4 +47,4 @@ def main():
     conn.close()
 
 if __name__ == '__main__':
-    main()
+    create_tables()
