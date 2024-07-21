@@ -14,3 +14,4 @@ share/python-wheels/
 *.py[cod]
 *$py.class
 trash/
+.pytest_cache/
