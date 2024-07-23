@@ -1,24 +1,6 @@
-import pytest
-from operations.db_connect import get_connection
+from operations.db_connect import get_connection,close_connection
 from operations.insert import insert_data
 from operations.create_table import create_table
-
-@pytest.fixture()
-def setup_table():
-    table_name = 'person_test'
-    
-    # Drop the table if it exists
-    conn = get_connection()
-    cur = conn.cursor()
-    cur.execute(f"DROP TABLE IF EXISTS {table_name};")
-    conn.commit()
-    cur.close()
-    conn.close()
-    
-    # Create the table
-    create_table(table_name)
-    
-    yield table_name
 
 def test_insert_into(setup_table):
     table_name = setup_table
