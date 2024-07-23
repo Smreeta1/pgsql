@@ -1,11 +1,11 @@
 import psycopg2
 from operations.db_connect import get_connection
 
-def create_table(create_table):
+def create_table(table_name):
     conn = get_connection()
     cur = conn.cursor()
-    create_table = """
-    CREATE TABLE IF NOT EXISTS person (
+    create_table_stmt = f"""
+    CREATE TABLE IF NOT EXISTS {table_name} (
         id SERIAL PRIMARY KEY,
         name VARCHAR(100) NOT NULL,
         dob DATE NOT NULL,
@@ -14,11 +14,10 @@ def create_table(create_table):
         address TEXT
     );
     """
-    cur.execute(create_table)
+    cur.execute(create_table_stmt)
     conn.commit()
     cur.close()
     conn.close()
-    
-if __name__ == "__main__":
-    create_table()
 
+if __name__ == "__main__":
+    create_table()  # Example call to create 'person' table
