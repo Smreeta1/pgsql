@@ -1,6 +1,5 @@
 from operations.db_connect import get_connection
 from operations.insert import insert_data
-from operations.create_table import create_table
 from operations.select import select_data
 
 def test_select_data(setup_table):
