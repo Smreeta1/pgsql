@@ -2,7 +2,7 @@ import pytest
 from operations.db_connect import get_connection
 from operations.insert import insert_data
 from operations.create_table import create_table
-from operations.insert import select_data
+from operations.select import select_data
 
 @pytest.fixture()
 def setup_table():

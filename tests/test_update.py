@@ -27,9 +27,9 @@ def test_update_data(setup_table):
     insert_data(table, data)
     
     # Update data
-    update_data('email', 'hari.updated@gmail.com', f"name = 'Hari'", table_name=table)
+    update_data(table,'email', 'hari.updated@gmail.com', "name = 'Hari'")
     
-    # Verify update
+    # Verify updates
     conn = get_connection()
     cur = conn.cursor()
     cur.execute(f"SELECT * FROM {table} WHERE name = %s;", ('Hari',))

@@ -15,6 +15,7 @@ def setup_table():
     conn.commit()
     cur.close()
     conn.close()
+    create_table(table_name)
     yield table_name
 
 def test_delete_data_by_name(setup_table):
