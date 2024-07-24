@@ -16,7 +16,6 @@ def setup_table():
     yield table_name
     
     # Cleanup after test
-   
     try:
         with conn.cursor() as cur:
             drop_table(table_name)
