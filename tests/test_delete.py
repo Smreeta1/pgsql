@@ -1,6 +1,8 @@
 from operations.insert import insert_data
 from operations.delete import delete_data_by_name
-from tests.db_context_manager import with_connection_and_cursor
+from operations.db_connect import get_connection
+
+conn = get_connection()
 
 def test_delete_data_by_name(setup_table):
     table = setup_table
@@ -10,9 +12,9 @@ def test_delete_data_by_name(setup_table):
     # Delete data
     delete_data_by_name(table, 'Gita')
     
-    def check_deletion(cur):
-        cur.execute(f"SELECT * FROM {table} WHERE name = %s;", ('Gita',))
-        result = cur.fetchone()
-        assert result is None  # Check if data is deleted
-    
-    with_connection_and_cursor(check_deletion)
+    with conn.cursor() as cur:
+            cur.execute(f"SELECT * FROM {table} WHERE name = %s;", ('Gita',))
+            result = cur.fetchone()
+            conn.commit()
+            assert result is None  # Check if data is deleted
+   

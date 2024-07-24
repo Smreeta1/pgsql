@@ -1,6 +1,7 @@
 from operations.insert import insert_data
 from operations.update import update_data
-from tests.db_context_manager import with_connection_and_cursor
+from operations.db_connect import get_connection
+conn = get_connection()
 
 def test_update_data(setup_table):
     table = setup_table
@@ -10,10 +11,12 @@ def test_update_data(setup_table):
     # Update data
     update_data(table, 'email', 'hari.updated@gmail.com', "name = 'Hari'")
     
-    def check_update(cur):
+    with conn.cursor() as cur: 
+           
         cur.execute(f"SELECT * FROM {table} WHERE name = %s;", ('Hari',))
         result = cur.fetchone()
+        conn.commit()
         assert result is not None
         assert result[3] == 'hari.updated@gmail.com'
     
-    with_connection_and_cursor(check_update)
+  
