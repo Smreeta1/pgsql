@@ -11,10 +11,12 @@ def test_delete_data_by_name(setup_table):
     
     # Delete data
     delete_data_by_name(table, 'Gita')
-    
-    with conn.cursor() as cur:
-            cur.execute(f"SELECT * FROM {table} WHERE name = %s;", ('Gita',))
-            result = cur.fetchone()
-            conn.commit()
-            assert result is None  # Check if data is deleted
-   
+    try:
+        with conn.cursor() as cur:
+                cur.execute(f"SELECT * FROM {table} WHERE name = %s;", ('Gita',))
+                result = cur.fetchone()
+                conn.commit()
+                assert result is None  # Check if data is deleted
+    except Exception as e:
+        conn.rollback()
+        raise e

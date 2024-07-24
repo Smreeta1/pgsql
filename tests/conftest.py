@@ -13,13 +13,15 @@ def setup_table():
     drop_table(table_name)
     
     create_table(table_name)
+    conn.commit()
     yield table_name
+    conn.close()
     
     # Cleanup after test
-    try:
-        with conn.cursor() as cur:
-            drop_table(table_name)
-            conn.commit()
-    finally:
-        conn.close()
+    # try:
+    #     with conn.cursor() as cur:
+    #         drop_table(table_name)
+    #         conn.commit()
+    # finally:
+    #     conn.close()
    

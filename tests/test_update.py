@@ -10,13 +10,14 @@ def test_update_data(setup_table):
     
     # Update data
     update_data(table, 'email', 'hari.updated@gmail.com', "name = 'Hari'")
+    try:    
+        with conn.cursor() as cur: 
+            cur.execute(f"SELECT * FROM {table} WHERE name = %s;", ('Hari',))
+            result = cur.fetchone()
+            assert result is not None
+            assert result[3] == 'hari.updated@gmail.com'
+            conn.commit()
+    except Exception as e:
+            conn.rollback()
+            raise e    
     
-    with conn.cursor() as cur: 
-           
-        cur.execute(f"SELECT * FROM {table} WHERE name = %s;", ('Hari',))
-        result = cur.fetchone()
-        conn.commit()
-        assert result is not None
-        assert result[3] == 'hari.updated@gmail.com'
-    
-  

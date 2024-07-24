@@ -13,5 +13,5 @@ def create_table(table_name):
             address TEXT
         );
         """)
-        conn.commit()
-    conn.close()  # Close the connection after use
+    conn.commit()
+    
