@@ -1,7 +1,7 @@
 from operations.db_connect import get_connection
+conn = get_connection() 
 
 def create_table(table_name):
-    conn = get_connection()  # Obtain a new connection
     with conn.cursor() as cur:
         cur.execute(f"""
          CREATE TABLE IF NOT EXISTS {table_name} (

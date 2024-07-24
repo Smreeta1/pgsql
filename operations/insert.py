@@ -1,6 +1,7 @@
 from operations.db_connect import get_connection
+conn=get_connection()
+
 def insert_data(table_name, data):
-    conn=get_connection()
     with conn.cursor() as cur:
     
         insert_into = f"""
