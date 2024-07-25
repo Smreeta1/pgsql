@@ -3,9 +3,9 @@ from operations.db_connect import get_connection
 conn = get_connection()
 
 #upsert for conflict on email column
-def upsert_data(table_name, data):
+def upsert_data(table_name,data):
     with conn.cursor() as cur:
-        for row in data:
+        
             insert_into = f"""
             INSERT INTO {table_name} (name, dob, email, phone, address)
             VALUES (%s, %s, %s, %s, %s)
@@ -15,5 +15,5 @@ def upsert_data(table_name, data):
             phone = EXCLUDED.phone,
             address = EXCLUDED.address;
             """
-            cur.execute(insert_into, row)
+            cur.executemany(insert_into,data)
     conn.commit()
