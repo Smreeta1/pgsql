@@ -20,29 +20,32 @@ def test_upsert_data(setup_table):
         ('krishna', '1980-05-15', 'Krishna@gmail.com', '123456789', 'BRT') #Duplicate email
     ]
     upsert_data(table_name, new_data)
-    
-    with conn.cursor() as cur:
-        # Check if 'Ram' is updated
-        cur.execute(f"SELECT * FROM {table_name} WHERE email = %s;", ('ram@gmail.com',))
-        result = cur.fetchone()
-        assert result is not None
-        assert result[1] == 'Ram'
-        assert result[5] == 'Bhaktapur'  # Check updated address
-        assert result[4] == '0987654321'  # Check updated phone
-        
-        # Check if 'Shyam' is inserted
-        cur.execute(f"SELECT * FROM {table_name} WHERE email = %s;", ('shyam@gmail.com',))
-        result = cur.fetchone()
-        assert result is not None
-        assert result[1] == 'Shyam'
-        assert result[5] == 'Pokhara'
-        
-         # Check if 'Krishna' is updated
-        cur.execute(f"SELECT * FROM {table_name} WHERE email = %s;", ('Krishna@gmail.com',))
-        result = cur.fetchone()
-        assert result is not None
-        # assert result[1] == 'Krishna'
-        assert result[5] == 'BRT'  #Check updated address
-        assert result[4] == '123456789'  #Check updated phone
-        
-        conn.commit()
+    try:
+        with conn.cursor() as cur:
+            # Check if 'Ram' is updated
+            cur.execute(f"SELECT * FROM {table_name} WHERE email = %s;", ('ram@gmail.com',))
+            result = cur.fetchone()
+            assert result is not None
+            assert result[1] == 'Ram'
+            assert result[5] == 'Bhaktapur'  # Check updated address
+            assert result[4] == '0987654321'  # Check updated phone
+            
+            # Check if 'Shyam' is inserted
+            cur.execute(f"SELECT * FROM {table_name} WHERE email = %s;", ('shyam@gmail.com',))
+            result = cur.fetchone()
+            assert result is not None
+            assert result[1] == 'Shyam'
+            assert result[5] == 'Pokhara'
+            
+            # Check if 'Krishna' is updated
+            cur.execute(f"SELECT * FROM {table_name} WHERE email = %s;", ('Krishna@gmail.com',))
+            result = cur.fetchone()
+            assert result is not None
+            # assert result[1] == 'Krishna'
+            assert result[5] == 'BRT'  #Check updated address
+            assert result[4] == '123456789'  #Check updated phone
+        conn.commit()    
+    except Exception as e:
+            conn.rollback()
+            raise e   
+      
