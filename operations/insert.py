@@ -5,7 +5,6 @@ conn = get_connection()
 
 def insert_data(table_name, data):
     with conn.cursor() as cur:
-        # Define the SQL insert query
         insert_into = f"""
         INSERT INTO {table_name} (person_data)
         VALUES (%s);
