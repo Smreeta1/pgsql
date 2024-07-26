@@ -1,4 +1,4 @@
-# operations/upsert_data.py
+from psycopg2.extras import execute_batch
 from operations.db_connect import get_connection
 conn = get_connection()
 
@@ -15,5 +15,5 @@ def upsert_data(table_name,data):
             phone = EXCLUDED.phone,
             address = EXCLUDED.address;
             """
-            cur.executemany(insert_into,data)
+            execute_batch(cur,insert_into,data)
     conn.commit()

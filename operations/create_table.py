@@ -14,4 +14,3 @@ def create_table(table_name):
         );
         """)
     conn.commit()
-    
