@@ -1,3 +1,4 @@
+from psycopg2.extras import execute_batch
 from operations.db_connect import get_connection
 import json
 
@@ -9,16 +10,22 @@ def insert_data(table_name, data):
         INSERT INTO {table_name} (person_data)
         VALUES (%s);
         """
-        #data for JSONB column
+        # Prepare data for JSONB column
         data_format = [
-            (json.dumps({
-                "name": name,
-                "dob": dob,
-                "email": email,
-                "phone": phone,
-                "address": address
-            }),)
+            (
+                json.dumps(
+                    {
+                        "name": name,
+                        "dob": dob,
+                        "email": email,
+                        "phone": phone,
+                        "address": address,
+                    }
+                ),
+            )
             for name, dob, email, phone, address in data
         ]
-        cur.executemany(insert_into, data_format)
+    
+        execute_batch(cur, insert_into, data_format)
+        
     conn.commit()
